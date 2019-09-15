@@ -1,0 +1,70 @@
+#include <stdio.h>
+#include <iostream>
+using namespace std;
+class SegmentTree {
+public:
+	int Values[1000];
+	int sum[1000] = {0};
+	/*SegmentTree(int a[] ,int n) {
+		for (int i = 0; i < n; i++) {
+			sum[n+i] = a[i];
+		}*/
+		 
+	int Build(int a[] ,int left ,int right , int index){
+		int mid = (left + right) / 2;
+		if (left == right) {
+			cout << "value returned " << a[left] << endl;
+			Values[index] = a[left];
+			return a[left];
+		}
+		Values[index] = Build(a, left, mid, 2*index + 1) + Build(a, mid + 1, right, 2*index + 2);
+		cout << "index is "<<index <<" Values[] is " << Values[index]<<endl;
+		return Values[index];
+    }
+	void update(int left ,int right, int index ,int val ,int seg) {
+
+		if (seg > 2 * 4 - 1)
+			return;
+		if (index < left &&  index > right) {
+			return;
+		}
+		else if(index >=left && index <=right) {
+			Values[seg] += val;
+		}
+		int mid = (left + right) / 2;
+		update(left, mid , index,val,2*seg+1);
+		update(mid + 1, right, index,val,2*seg+2);
+	}
+	int getValue(int left , int right ,int start ,int end ,int index) {
+		if (left == start && right == end) {
+			return Values[index];
+		}
+		else if (left >= start && right <end) {
+			int mid = (left + right) / 2;
+			return getValue(left,right,left,mid,2*index+1)+getValue(left,right,mid+1,end,2*index+2);
+			
+
+		}
+		return 0;
+		
+	}
+	static void Init() {
+		int a[] = { 5,3,4,8,6 };
+		SegmentTree * segTree = new SegmentTree();
+		segTree->Build(a, 0, 4, 0);
+		for (int i = 0; i < 2 * 5 - 1; i++) {
+			cout << segTree->Values[i] << endl;
+		}
+		segTree->update(0, 4, 2, 4, 0);
+		for (int i = 0; i < 2 * 5 - 1; i++) {
+			cout << segTree->Values[i] << endl;
+		}
+		cout << "sum is " << endl;
+		cout << segTree->getValue(0, 5, 0, 5, 0);
+
+	}
+};
+int main() {
+	SegmentTree::Init();
+	while (true) {}
+}
