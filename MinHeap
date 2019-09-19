@@ -1,0 +1,117 @@
+#include <iostream>
+#include<climits>
+using namespace std;
+
+class Heap {
+public:
+	int *pHeapArray;
+	int nCurSize;
+	Heap(int size) {
+		pHeapArray = (int*)malloc(sizeof(int)*size);
+		memset(pHeapArray, '0',size);
+		nCurSize = 0;
+	}
+	bool insert(int val) {
+		pHeapArray[nCurSize] = val;
+		nCurSize++;
+		heapify(nCurSize-1);
+		return true;
+	}
+	void decreaseKey(int index ,int val) {
+		pHeapArray[index] -= val;
+		heapify(index);
+	}
+	void _delete(int index) {
+
+		pHeapArray[index] = INT_MIN +10;
+		heapify(index);
+		//pHeapArray[nCurSize - 1] = -1;
+		//nCurSize--;
+		for (int i = 0; i < nCurSize; i++)
+			cout << pHeapArray[i] << endl;
+		cout << "==========" << endl;
+		extractMiin();
+		for (int i = 0; i <nCurSize; i++)
+			cout << pHeapArray[i] << endl;
+		cout << "==========" << endl;
+	}
+	int extractMiin() {
+		//int temp = pHeapArray[0];
+		pHeapArray[0] = pHeapArray[nCurSize - 1];
+		nCurSize--;
+		HeapifyFromRoot(0);
+		return pHeapArray[0];
+	}
+	void HeapifyFromRoot(int index) {
+		if (index >= nCurSize) 
+			return;
+
+		if (pHeapArray[index] <= pHeapArray[2*index+1] && pHeapArray[index] <= pHeapArray[2*index+2]) {
+			return;
+		}
+		else if (pHeapArray[index] > pHeapArray[2 * index + 1] && 2 * index + 1 < nCurSize) {
+			int temp = pHeapArray[index];
+			pHeapArray[index] = pHeapArray[2 * index + 1];
+			pHeapArray[2 * index + 1] = temp;
+			HeapifyFromRoot(2 * index + 1);
+		}
+		else if (pHeapArray[index] > pHeapArray[2 * index + 2] && 2 * index + 2 < nCurSize) {
+			int temp = pHeapArray[index];
+			pHeapArray[index] = pHeapArray[2 * index + 2];
+			pHeapArray[2 * index + 2] = temp;
+			HeapifyFromRoot(2 * index + 2);
+		}
+		return;
+	}
+	int getMin() {
+		return pHeapArray[0];
+	}
+	int getParent(int element ) {
+		return (element - 1) / 2;
+	}
+	bool heapify(int size) {
+		if (size <= 0)
+			return true;
+		int parent = getParent(size);
+		cout << "child is " << pHeapArray[size] << endl << "parent is " << parent << endl;
+		if (pHeapArray[size] < pHeapArray[parent]) {
+
+			cout << "inside parent is "<<parent<<endl;
+			int temp = pHeapArray[size];
+			cout << "pHeapArray[parent] is " << pHeapArray[parent] << endl;
+			pHeapArray[size] = pHeapArray[parent];
+			cout << "pHeapArray[size] is " << pHeapArray[size] << endl;
+			pHeapArray[parent] = temp;
+			cout << "pHeapArray[parent] is " << pHeapArray[parent] << endl;
+			heapify(parent);
+		}
+		return true;
+	}
+};
+
+
+int main() {
+
+	Heap* heap = new Heap(6);
+	heap->insert(10);
+	heap->insert(5);
+	heap->insert(7);
+	heap->insert(6);
+	heap->insert(1);
+	for (int i = 0; i < heap->nCurSize; i++)
+		cout << heap->pHeapArray[i] << endl;
+	cout << "==========" << endl;
+	heap->extractMiin();
+	for (int i = 0; i < heap->nCurSize; i++)
+		cout << heap->pHeapArray[i] << endl;
+	cout << "==========" << endl;
+	heap->decreaseKey(1,1);
+	for (int i = 0; i < heap->nCurSize; i++)
+		cout << heap->pHeapArray[i] << endl;
+	cout << "==========" << endl;
+	heap->_delete(1);
+	for (int i = 0; i < heap->nCurSize; i++)
+		cout << heap->pHeapArray[i] << endl;
+	cout << "==========" << endl;
+	while (1) {}
+}
