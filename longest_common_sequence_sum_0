@@ -1,0 +1,93 @@
+/*https://www.interviewbit.com/problems/largest-continuous-sequence-zero-sum/*/
+#include <iostream>
+#include <set>
+#include <vector>
+#include <stdlib.h>
+#include <algorithm> 
+#include <map>
+//#include "bits/stdc++.h
+using namespace std;
+
+class Solution {
+public :
+	int size;
+	vector<int> lszero(vector<int>&);
+};
+
+vector<int> Solution::lszero(vector<int> &A) {
+	int size = A.size();
+	vector<int>sum(size + 1, 0);
+	vector<int> ans;
+	//sum[0] = A[0];
+	map<int,pair<int,int>> sum_map;
+	int start = 0, end = 0;
+	//cout << "Counting sume of the array elements " << endl;
+	sum_map[0] = make_pair(0,-1);
+	for (int i = 0; i<size; i++) {
+		if (i == 0) {
+			sum[i] = A[i];
+		}
+		else {
+			sum[i] = sum[i - 1] + A[i];
+		}
+		if (sum_map.find(sum[i]) == sum_map.end()) {
+				sum_map[sum[i]] = make_pair(i+1, -1);
+		}
+		else {
+			int val = sum_map[sum[i]].first;
+			//int second = sum_map[sum[i]].second;
+			sum_map[sum[i]] = make_pair(val,i+1);
+		}
+	}
+	
+	//cout << "finding the end element position  " << endl;
+	//for (int i = 0; i < size; i++) {
+		int max = 0;
+		map<int, pair<int, int>>::iterator it;
+		for (it = sum_map.begin(); it != sum_map.end(); it++) {
+			pair<int, int> temp = (it)->second;
+			int begin = temp.first;
+			int end1 = temp.second;
+			if (begin == -1 || end1 == -1) {
+				continue;
+			}
+			//cout << "begin " << begin << "end1 is " << end1<<endl;
+			if (max < abs(end1-begin)) {
+				start = begin;
+				end = end1;
+				max = abs(end1 - begin);
+			}
+			else if (max == abs(end1 - begin)) {
+				if (start > begin) {
+					start = begin;
+					end = end1;
+				}
+			}
+			
+		}
+	//}
+	//cout << "printing the answer" << endl;
+	//cout << "start " << start << "end " << end << endl;
+	if (start == 0 && end == 0) {
+		return ans;
+	}
+
+	for (int i = start; i < end; i++) {
+		ans.push_back(A[i]);
+	}
+
+	return ans;
+}
+
+int main() {
+	int a[] = { -8, 8, -1, -16, -28, -27, 15, -14, 14, -27, -5, -6, -25, -11, 28, 29, -3, -25, 17, -25, 4, -20, 2, 1, -17, -10, -25 };
+	vector <int> input;
+	input.assign(a,a+27);
+	Solution* obj = new Solution;
+	vector<int> ans = obj->lszero(input);
+	for (int i = 0; i < ans.size(); i++) {
+		cout << ans[i] << endl;
+	}
+	while (1) {}
+	return 0;
+}
