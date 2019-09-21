@@ -1,0 +1,43 @@
+/*https://www.interviewbit.com/problems/colorful-number/ */
+#include <iostream>
+#include <set>
+//#include "bits/stdc++.h"
+using namespace std;
+
+
+int colorFull(int a) {
+	set<int> product;
+	int temp = a;
+	int temp2 = a;
+	int val ,ans=1;
+	while (temp2) {
+		//cout << "outside " << temp2 << endl;
+		while (temp) {
+			cout << "inside " << temp << endl;
+			val = temp % 10;
+			ans = ans* val;
+			cout << ans << endl;
+			if (product.find(ans) == product.end()) {
+				product.insert(ans);
+			}
+			else
+			{
+				//cout << "return " << endl;
+				return 0;
+			}
+			temp = temp / 10;
+		}
+		ans = 1;
+		temp2 = temp2 / 10;
+		temp = temp2;
+	}
+	return 1;
+}
+
+int main() {
+	int a;
+	cin >> a;
+	cout<<colorFull(a);
+	//while (1) {}
+	return 0;
+}
