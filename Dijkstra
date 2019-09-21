@@ -1,0 +1,78 @@
+#include <iostream>
+#include <set>
+#include <vector>
+#include <set>
+#include <list>
+using namespace std;
+#define INF 0x3f3f3f3f
+class Dijkastra {
+public:
+	int V;
+	set <pair<int, int>> fd;
+	list < pair <int,int> > *adj;
+
+	Dijkastra(int v) {
+		V = v;
+		/*for (int i = 0; i < V; i++) {
+			dist.push_back();
+		}*/
+		adj = new list<pair<int,int>> [V];
+	}
+	void addEdge(int start,int end, int wieght) {
+		adj[start].push_back(make_pair(end, wieght));
+		adj[end].push_back(make_pair(start, wieght));
+	}
+	int shortestPath(int v) {
+		vector <int> dist(V, INF);
+		dist[v] = 0;
+		fd.insert(make_pair(0, v));
+		while (!fd.empty()) {
+			pair<int, int> temp = *(fd.begin());
+			fd.erase(fd.begin());
+			int node = temp.second;
+			list<pair<int,int>>::iterator it;
+			for (it = adj[node].begin(); it != adj[node].end(); it++) {
+				int inside_node = (*it).first;
+				int val = (*it).second;
+				if (dist[node] + val < dist[inside_node]) {
+						if (dist[inside_node] != INF)
+							fd.erase(fd.find(make_pair(dist[inside_node], inside_node)));
+						dist[inside_node] = dist[node] + val;
+						fd.insert(make_pair(dist[inside_node], inside_node));
+					}			
+			}
+			
+		}
+		for (int i = 0; i < V; i++) {
+			cout << "dist from " << i << " is " << dist[i] << endl;
+		}
+		return 0;
+	}
+	void printAns() {
+		
+   }
+
+};
+
+
+int main() {
+	Dijkastra* g = new Dijkastra(9);
+	g->addEdge(0, 1, 4);
+	g->addEdge(0, 7, 8);
+	g->addEdge(1, 2, 8);
+	g->addEdge(1, 7, 11);
+	g->addEdge(2, 3, 7);
+	g->addEdge(2, 8, 2);
+	g->addEdge(2, 5, 4);
+	g->addEdge(3, 4, 9);
+	g->addEdge(3, 5, 14);
+	g->addEdge(4, 5, 10);
+	g->addEdge(5, 6, 2);
+	g->addEdge(6, 7, 1);
+	g->addEdge(6, 8, 6);
+	g->addEdge(7, 8, 7);
+
+	g->shortestPath(0);
+	g->printAns();
+	while (1) {}
+}
