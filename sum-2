@@ -1,0 +1,96 @@
+/*https://www.interviewbit.com/problems/2-sum/ */
+#include <iostream>
+#include <set>
+#include <vector>
+#include <stdlib.h>
+#include <algorithm> 
+#include <map>
+//#include "bits/stdc++.h
+using namespace std;
+
+class Solution {
+public :
+	int size;
+	vector<int> findTarget(vector<int>&,int);
+};
+
+vector<int> Solution::findTarget(vector<int> &A ,int B) {
+	map<int, pair<int,int>> val_map;
+	vector<int> ans;
+	bool isSame = false;
+	int start = -1, end = -1;
+		for (int i = 0; i < A.size(); i++) {
+		//val_map.insert(i,A[i]);
+			if(val_map.find(A[i]) == val_map.end())
+				val_map[A[i]] = make_pair(i,i);
+			else {
+				int key = val_map[A[i]].first;
+				//int val = val_map[A[i]].second;
+				val_map[A[i]] = make_pair(key, i);
+			}
+	}
+		for (auto it = val_map.begin(); it != val_map.end(); it++) {
+			//cout << "key is " << it->first << "value-1 " << it->second.first <<"value-2 "<< it->second.second<<endl;
+   }
+	for (int i = 0; i < A.size(); i++) {
+		if (val_map.find(B - A[i]) != val_map.end()) {
+			auto a = val_map.find(B - A[i]);
+			if (i < a->second.first) {
+
+				if (start == -1 && end == -1) {
+					end = a->second.first;
+					start = i;
+					continue;
+				}
+				if (a->second.first < end) {
+					end = a->second.first;
+					start = i;
+					continue;
+				}
+				if (a->second.first == end && start > i) {
+					start = i;
+					continue;
+				}
+			}
+			else if (i == a->second.first && a->second.first != a->second.second && !isSame) {
+				isSame = true;
+				//cout << "first " << a->second.first << " second " << a->second.second << endl;
+				for (int k = i+1; i < A.size(); k++) {
+					if (A[i] == A[k]) {
+						if (k < end ||(start == -1 && end == -1 )) {
+							end = k;
+							start = i;
+						}
+						break;
+					}
+				}
+			}
+			//cout << "start " << start << "end " << end << endl;
+		}
+	
+	}
+	if (start == -1 && end == -1) {
+		return ans;
+	}
+	ans.push_back(start+1);
+	ans.push_back(end+1);
+	return ans;
+}
+
+int main() {
+	int a[] = { 10, -3, 5, -7, -4, 5, 6, -7, 8, -5, 8, 0, 8, -5, -10, -1, 1, -6, 4, -1, -2, -2, 10, -2, -4, -7, 5, 1, 7, -10, 0, 5, 8, 6, -8, 8, -8, -8, 3, -9, -10, -5, -5, -10, 10, -4, 8, 0, -6, -2, 3, 7, -5, 5, 1, -7, 0, -5, 1, -3, 10, -4, -3, 3, 3, 5, 1, -2, -6, 3, -4, 10, -10, -3, -8, 2, -2, -3, 0, 10, -6, -8, -10, 6, 7, 0, 3, 9, -10, -7, 8, -7, -7 };
+	//int a[] = { 1,1,1 };
+	vector <int> input;
+	input.assign(a,a+93);
+	//input.assign(a,a+3);
+	Solution* obj = new Solution;
+	int target;
+	cin >> target;
+	vector<int> ans = obj->findTarget(input,target);
+	for (int i = 0; i < ans.size(); i++) {
+		cout << ans[i] << endl;
+	}
+	cout << "Completed \n";
+	while (1) {}
+	return 0;
+}
