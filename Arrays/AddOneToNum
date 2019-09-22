@@ -1,0 +1,41 @@
+/*https://www.interviewbit.com/problems/add-one-to-number/*/
+
+vector<int> Solution::plusOne(vector<int> &A) {
+    int size = A.size();
+    bool nines = false ;
+    vector<int> B;
+    int count = 0 ;
+    vector<int>::iterator it ;
+    it = A.begin();
+    for(int i = 0 ;i<size;i++){
+        if(A[i] == 0){
+           count++;
+        }else
+        break;
+    }
+    //cout<<A.size()<<endl;
+    for(int i = size -1 ; i>=count ;i--){
+        
+        if(A[i] == 9){
+            A[i] = 0;
+            nines = true ;
+        }
+        else{
+            A[i] = A[i]+1;
+            nines = false ;
+            break;
+        }
+    }
+    
+    if(nines){
+        B.push_back(1);
+    }
+     for(int i = count ;i < size ;i++){
+            B.push_back(A[i]);
+        }
+        if(B.size() == 0){
+            B.push_back(1);
+            return B;
+        }
+    return B;
+}
