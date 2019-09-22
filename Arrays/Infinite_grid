@@ -1,0 +1,24 @@
+/*https://www.interviewbit.com/problems/min-steps-in-infinite-grid/*/
+int coverPoints(int* X, int n1, int* Y, int n2) {
+ int ans = 0;
+ int x_start;
+ int y_start,i;
+ x_start = X[0];
+ y_start = Y[0];
+ 
+ for(i=1 ;i<n1;i++){
+   if(X[i]==x_start || Y[i] == y_start){  
+        ans += abs(X[i]-x_start) + abs(Y[i]-y_start);
+   }else{
+        if(abs(X[i]-x_start) < abs(Y[i]-y_start)){
+            ans += abs(Y[i]-y_start);
+        }
+        else{
+            ans += abs(X[i]-x_start);
+        }
+   }
+   y_start = Y[i];
+   x_start = X[i];
+ }
+ return ans;
+}
