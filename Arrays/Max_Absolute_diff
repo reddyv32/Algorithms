@@ -1,0 +1,47 @@
+/*https://www.interviewbit.com/problems/maximum-absolute-difference/*/
+
+int maximum(int a ,int b){
+    if(a>b)
+        return a ;
+    else 
+        return b;
+}
+int Solution::maxArr(vector<int> &A) {
+ int min=INT_MAX,max=INT_MIN;
+ int size = A.size();
+ int max_in=-1,min_in=-1;
+ int array1[100005]={0};
+ int array2[100005]={0};
+ long long int ans =0;
+ for(int i=0;i<size;i++){
+     array1[i] = A[i]+(i+1);
+     array2[i] = A[i]-(i+1);
+ }
+ for(int i=0;i<size;i++){
+     if(max < array1[i]){
+         max = array1[i];
+         
+     }
+     if(min>array1[i]){
+         min = array1[i];
+     }
+ }
+ ans = maximum(max-min, -max+min);
+ //cout<<ans<<endl;
+ max = INT_MIN;
+ min = INT_MAX;
+ for(int i=0;i<size;i++){
+     if(max < array2[i]){
+         max = array2[i];
+     }
+     if(min>array2[i]){
+         min = array2[i];
+     }
+ }
+ // ans = max(max-min,-max-min);
+ if(ans < maximum(max-min,-max+min)){
+     //cout<<maximum(max-min,-max+min)<<endl;
+     ans = maximum(max-min,-max+min);
+ }
+  return ans ;    
+}
