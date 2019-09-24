@@ -1,0 +1,36 @@
+/*https://www.interviewbit.com/problems/repeat-and-missing-number-array/*/
+
+long long int  sum_n(int a){
+    long long int  sum =a ;
+    if(sum%2==0){
+        return ((long long int)(sum/2)*(long long int)(sum+1));
+    }else{
+        return ((long long int)(sum)*((long long int)(sum+1)/2));
+    }
+}
+long long int sum_n_n(int a){
+    long long int sum = 0;
+    sum = ((sum_n(a) * (long long int )(2*a+1))/3) ;
+    return sum;
+}  
+vector<int> Solution::repeatedNumber(const vector<int> &A) {
+long long int sum = 0 ,xor_val=A[0],size = A.size(),diff=0;
+for(int i=0;i<size;i++){
+    sum+=A[i];
+}
+long long sumofn=0;
+for(int i=0;i<size;i++){
+    sumofn+=(long long int)A[i]*(long long int)A[i];
+}
+long long int diff2=0;
+diff = sum - sum_n(size);
+diff2 = sumofn-sum_n_n(size);
+long long int diff3 = diff2/diff;
+
+
+vector<int> result;
+result.push_back(diff+(diff3-diff)/2);
+result.push_back((diff3-diff)/2);
+
+return result;
+}
