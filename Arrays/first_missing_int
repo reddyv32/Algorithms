@@ -1,0 +1,24 @@
+/*https://www.interviewbit.com/problems/first-missing-integer/*/
+int Solution::firstMissingPositive(vector<int> &A) {
+    int size = A.size();
+    /*for(int i=0;i<size;i++){
+        if(A[i]<0){
+            A[i] = 0;
+        }
+    }*/
+    for(int i=0 ;i<size ;i++){
+        if(A[i]>0 && A[i]<=size){
+            int pos = A[i] -1 ;
+            if(A[pos] != A[i]){a
+                swap(A[pos],A[i]);
+                i--;
+            }
+        }
+    }
+    for(int i= 0;i<size;i++){
+        if(A[i] != i+1){
+            return i+1;
+        }
+    }
+    return size+1;
+}
