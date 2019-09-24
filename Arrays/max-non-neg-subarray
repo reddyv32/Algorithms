@@ -1,0 +1,32 @@
+/*https://www.interviewbit.com/problems/max-non-negative-subarray/*/
+
+vector<int> Solution::maxset(vector<int> &A) {
+   long long int size = A.size();
+   long long int max=LONG_MIN,len=0,sum=0,end=0,max_len=-1;
+   for(int i=0; i<size ;i++){
+       sum+=(long long int)A[i];
+       len++;
+       if(sum<0 || A[i]<0){
+            sum=0;
+            len=0;
+       }
+       //if((max<sum || (max==0 && sum==0 )) || (max == sum && max_len <= len)){
+         if(max<sum || (max == sum && max_len <len)){
+           max = sum;
+           end = i;
+           max_len = len ;
+       }
+       
+       //cout<<max<<" "<<end<<" "<<max_len<<endl;
+   }
+   //cout<<end<<max_len<<endl;
+   vector<int> result;
+   if(max<0){
+       return result ;
+   }
+   for(int i = end-max_len+1 ;i<=end ;i++){
+       result.push_back(A[i]);
+   }
+   return result ;
+    
+}
