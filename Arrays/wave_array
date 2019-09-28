@@ -1,0 +1,15 @@
+
+/*https://www.interviewbit.com/problems/wave-array/*/
+vector<int> Solution::wave(vector<int> &A) {
+    sort(A.begin(),A.end());https://github.com/reddyv32/Algorithms
+    vector<int> result ;
+    for(int i=0 ;i<A.size();i = i+2){
+        if(i+1 == A.size()){
+            result.push_back(A[i]);
+            continue;
+        }
+        result.push_back(A[i+1]);
+        result.push_back(A[i]);
+    }
+    return result;
+}
