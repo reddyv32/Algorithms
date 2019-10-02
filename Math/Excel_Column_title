@@ -1,0 +1,11 @@
+
+string Solution::convertToTitle(int A) {
+
+     string ans;
+     int n=A;
+    while (n) {
+        ans = char ((n - 1) % 26 + 'A') + ans;
+        n = (n - 1) / 26;
+    }
+    return ans;
+}
