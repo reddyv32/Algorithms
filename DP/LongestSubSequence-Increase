@@ -1,0 +1,49 @@
+/*https://www.interviewbit.com/problems/length-of-longest-subsequence/*/
+
+int Solution::longestSubsequenceLength(const vector<int> &A) {
+    vector<int> inc(A.size());
+    vector<int> dec(A.size());
+    vector<int> ans ;
+    int size = A.size();
+    
+    if(size==0){
+        return 0;
+    }else if(size ==1){
+        return 1;
+    }
+    
+    ans.push_back(A[0]);
+    inc[0] =1;
+    
+    for(int i=1;i<size;i++){
+        int x = lower_bound(ans.begin(),ans.end(),A[i])-ans.begin();
+        if(x == ans.size()){
+            ans.push_back(A[i]);
+            inc[i] = ans.size();
+        }else{
+            ans[x]=A[i];
+            inc[i] = x+1;
+        }
+    }
+    ans.clear();
+    ans.push_back(A[size-1]);
+    dec[size-1]=1;
+    for(int i=size-2;i>=0;i--){
+         int x = lower_bound(ans.begin(),ans.end(),A[i])-ans.begin();
+        if(x == ans.size()){
+            ans.push_back(A[i]);
+            dec[i] = ans.size();
+        }else{
+            ans[x]=A[i];
+            dec[i] = x+1;
+        }
+    }
+    int max=INT_MIN;
+    for(int i=0;i<size;i++){
+        if(max < dec[i]+inc[i]-1){
+            max = dec[i]+inc[i]-1;
+        }
+    }
+    return max;
+    
+}
