@@ -1,0 +1,36 @@
+/*https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/534/week-1-may-1st-may-7th/3318/*/
+
+class Solution {
+    public boolean canConstruct(String ransomNote, String magazine) {
+        HashMap<String,Integer> hm = new HashMap<String,Integer>();
+        HashMap<String,Integer> hm1 = new HashMap<String,Integer>();
+
+        for(int i=0;i<magazine.length();i++){
+            String temp = String.valueOf(magazine.charAt(i));
+            if(hm.containsKey(temp)){
+                hm.put(temp,hm.get(temp)+1);
+            }else{
+                hm.put(temp,1);
+            }
+        }
+        for(int i=0;i<ransomNote.length();i++){
+            String temp = String.valueOf(ransomNote.charAt(i));
+            if(hm1.containsKey(temp)){
+                hm1.put(temp,hm1.get(temp)+1);
+            }else{
+                hm1.put(temp,1);
+            }
+        }
+        for(int i=0;i<ransomNote.length();i++){
+            String temp = String.valueOf(ransomNote.charAt(i));
+            if(hm.containsKey(temp)){
+                if(hm1.get(temp) > hm.get(temp)){
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
+        return true ;
+    }
+}
